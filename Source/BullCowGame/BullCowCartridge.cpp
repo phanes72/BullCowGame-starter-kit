@@ -20,7 +20,7 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
 
     if(bGameOver){
         ClearScreen();
-        SetupGame(); 
+        SetupGame();
     } else if (Lives > 1)
     {
         if (Input.Equals(HiddenWord))
