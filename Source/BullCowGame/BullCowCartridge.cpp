@@ -17,47 +17,12 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 
 void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
 {   
+        ProcessGuess(Input);
 
-    if(bGameOver){
-        ClearScreen();
-        SetupGame();
-    } else if (Lives > 1)
-    {
-        if (Input.Equals(HiddenWord))
-        {           
-            PrintLine(TEXT("YOU guessed the hidden word!!"));    
-            PrintLine(TEXT("--Press Enter to Play Again--"));     
-            bGameOver = true;  
-        }
-        else
-        {   
-            --Lives;
-            
-            //Check that the players guess equals the correct length
-            if (HiddenWord.Len() != Input.Len())
-            {   
-                PrintLine(TEXT("The hidden word is %i characters long."), HiddenWord.Len());
-                
-            }
-            
-            PrintLine(TEXT("Nope, try again."));
-            PrintLine(TEXT("Number of Lives = %i"), Lives);            
-        }
-
-        // Check if isogram
-        // DO NOT Decrement a life just have them guess again
-
-        // else Decrement a life
-
-        // Check if lives > 0
         // Show remaining number of lives and prompt to guess again
         // else
-        // Show Game Over and display HiddenWord
+        
         // prompt to guess again or quit
-    } else{
-        EndGame();
-    }
-
     
 }
 
@@ -85,5 +50,48 @@ void UBullCowCartridge::EndGame()
     bGameOver = true;
     
     PrintLine(TEXT("YOU LOSE!!!!!!!!!!!!!!!"));
+    // Show Game Over and display HiddenWord
+    PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord); 
     PrintLine(TEXT("--Press Enter to Play Again--"));
+}
+
+
+void UBullCowCartridge::ProcessGuess(FString Guess){
+    
+    if(bGameOver){
+        ClearScreen();
+        SetupGame();
+        return;
+
+    } else if (Lives > 1) // // Check if lives > 0
+    {
+        if (Guess.Equals(HiddenWord))
+        {           
+            PrintLine(TEXT("YOU guessed the hidden word!!"));    
+            PrintLine(TEXT("--Press Enter to Play Again--"));     
+            bGameOver = true;  
+        }
+        else
+        {               
+            //Check that the players guess equals the correct length
+            // DO NOT Decrement a life just have them guess again
+            if (HiddenWord.Len() != Guess.Len())
+            {   
+                PrintLine(TEXT("The hidden word is %i characters long."), HiddenWord.Len());
+                PrintLine(TEXT("Number of Lives = %i"), Lives); 
+                
+            }
+            // Check if isogram
+           // else Decrement a life
+            else
+            {
+                PrintLine(TEXT("Nope, try again."));
+                PrintLine(TEXT("Number of Lives = %i"), --Lives);  
+                return;   
+            }
+                   
+        }
+    } else{
+        EndGame();
+    }   
 }
