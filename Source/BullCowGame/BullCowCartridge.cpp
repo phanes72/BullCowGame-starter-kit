@@ -41,7 +41,6 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Guess the %i letter word."), HiddenWord.Len());
     PrintLine(TEXT("Type in your guess."));    
     PrintLine(TEXT("--Press Enter to continue--")); //Prompt player for guess
-       
     
 }
 
@@ -52,7 +51,7 @@ void UBullCowCartridge::EndGame()
     PrintLine(TEXT("YOU LOSE!!!!!!!!!!!!!!!"));
     // Show Game Over and display HiddenWord
     PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord); 
-    PrintLine(TEXT("--Press Enter to Play Again--"));
+    PrintLine(TEXT("\n--Press Enter to Play Again--"));
 }
 
 
@@ -71,6 +70,7 @@ void UBullCowCartridge::ProcessGuess(FString Guess){
             PrintLine(TEXT("--Press Enter to Play Again--"));     
             bGameOver = true;  
         }
+               
         else
         {               
             //Check that the players guess equals the correct length
@@ -79,10 +79,14 @@ void UBullCowCartridge::ProcessGuess(FString Guess){
             {   
                 PrintLine(TEXT("The hidden word is %i characters long."), HiddenWord.Len());
                 PrintLine(TEXT("Number of Lives = %i"), Lives); 
+                return;
                 
-            }
-            // Check if isogram
-           // else Decrement a life
+            }    
+            //Check if Isogram
+            else if (false){
+                PrintLine(TEXT("You can't have words with double letters"));
+                return;
+            }       
             else
             {
                 PrintLine(TEXT("Nope, try again."));
@@ -94,4 +98,19 @@ void UBullCowCartridge::ProcessGuess(FString Guess){
     } else{
         EndGame();
     }   
+}
+
+bool UBullCowCartridge::IsIsogram(FString Guess)
+{    
+    int32 counter = 0;
+        
+    //Loop through word checking for double letters
+    while(counter < Guess.Len()){
+        if(Guess[counter] == Guess[counter + 1]){
+            return true;
+        }
+        counter++;
+    }
+    return false;    
+   
 }
