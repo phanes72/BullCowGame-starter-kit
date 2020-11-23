@@ -41,7 +41,9 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Guess the %i letter word."), HiddenWord.Len());
     PrintLine(TEXT("Type in your guess."));    
     PrintLine(TEXT("--Press Enter to continue--")); //Prompt player for guess
-    
+
+    //const TCHAR HW[] = TEXT("cakes");
+        
 }
 
 void UBullCowCartridge::EndGame()
@@ -83,8 +85,8 @@ void UBullCowCartridge::ProcessGuess(FString Guess){
                 
             }    
             //Check if Isogram
-            else if (false){
-                PrintLine(TEXT("You can't have words with double letters"));
+            else if (IsIsogram(Guess)){
+                PrintLine(TEXT("You can't have words with repeating letters"));
                 return;
             }       
             else
@@ -100,17 +102,24 @@ void UBullCowCartridge::ProcessGuess(FString Guess){
     }   
 }
 
-bool UBullCowCartridge::IsIsogram(FString Guess)
-{    
+bool UBullCowCartridge::IsIsogram(FString Guess) const
+{      
     int32 counter = 0;
-        
-    //Loop through word checking for double letters
-    while(counter < Guess.Len()){
-        if(Guess[counter] == Guess[counter + 1]){
-            return true;
+    while(counter < Guess.Len() - 1)
+    {
+        char letter = Guess[counter];
+                
+        for(int32 i = counter; i < Guess.Len() - 1; i++)
+        {
+            char nextLetter = Guess[i + 1];
+            
+            if(letter == nextLetter)
+            {
+                return true;
+            }
         }
-        counter++;
+       counter++;
     }
-    return false;    
-   
+     return false;
+
 }
