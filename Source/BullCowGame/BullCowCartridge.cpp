@@ -1,8 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-#include "BullCowCartridge.h"
 #include <iostream>
-using namespace std;
+#include "BullCowCartridge.h"
+#include "HiddenWordList.h"
 
+
+using namespace std;
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
 
@@ -32,7 +34,10 @@ void UBullCowCartridge::SetupGame()
 
     PrintLine(TEXT("Welcome to the Bulls and Cows Game!"));
 
-    HiddenWord = TEXT("cakes");
+
+    HiddenWord = (HiddenWords[0]);
+    PrintLine(TEXT("The hidden word is "), HiddenWord);
+
     Lives = HiddenWord.Len();    
     PrintLine(TEXT("Number of Lives = %i"), Lives);
     
