@@ -1,15 +1,16 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include <iostream>
 #include "BullCowCartridge.h"
-#include "HiddenWordList.h"
-
+#include "Misc/FileHelper.h"
+#include "Misc/Paths.h"
 
 using namespace std;
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
 
     Super::BeginPlay();
-
+    const FString WordListPath = FPaths::ProjectContentDir() / TEXT("WordLists/HiddenWordList.txt");
+    FFileHelper::LoadFileToStringArray(Words, *WordListPath);
     SetupGame(); 
 
     PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord);  //TODO Debug line
@@ -35,8 +36,8 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Welcome to the Bulls and Cows Game!"));
 
 
-    HiddenWord = (HiddenWords[0]);
-    PrintLine(TEXT("The hidden word is "), HiddenWord);
+    HiddenWord = (Words[1000]);
+    PrintLine(TEXT("The hidden word from the huge list is %s"), *HiddenWord);
 
     Lives = HiddenWord.Len();    
     PrintLine(TEXT("Number of Lives = %i"), Lives);
@@ -46,8 +47,7 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Guess the %i letter word."), HiddenWord.Len());
     PrintLine(TEXT("Type in your guess."));    
     PrintLine(TEXT("--Press Enter to continue--")); //Prompt player for guess
-
-    //const TCHAR HW[] = TEXT("cakes");
+    
         
 }
 
