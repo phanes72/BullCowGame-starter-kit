@@ -41,7 +41,7 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Guess the %i letter word."), HiddenWord.Len());
     PrintLine(TEXT("Type in your guess."));    
     PrintLine(TEXT("--Press Enter to continue--")); //Prompt player for guess      
-    PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord);  //*******************TODO DEBUG ONLY display HiddenWord  
+    //PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord);  //*******************TODO DEBUG ONLY display HiddenWord  
 }
 
 void UBullCowCartridge::EndGame()
@@ -95,7 +95,7 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess){
                 FBullCowCount Score = GetBullCows(Guess);
                 //PrintLine(TEXT("Bulls = %i, Cows = %i"), Count.Bulls, Count.Cows);
                 PrintLine(TEXT("You have %i Bulls and %i Cows"), Score.Bulls, Score.Cows);
-                ShowBulls(Guess, HiddenWord);
+                ShowHits(Guess, HiddenWord);
                 PrintLine(TEXT("Number of Lives = %i"), --Lives);  
                 return;   
             }
@@ -177,42 +177,27 @@ FBullCowCount UBullCowCartridge::GetBullCows(const FString& Guess) const
 
 
 //Show the letter that is a Bull along with underscores
-void UBullCowCartridge::ShowBulls(FString Guess, FString HiddenWord) const
+void UBullCowCartridge::ShowHits(FString Guess, FString HiddenWord) const
 {
-    FString HelpString;
+    FString HelpString = "";
     FString Miss = "_";
     FString LetterInGuess = "";
 
     for (int32 i = 0; i < HiddenWord.Len(); i++)    
-    {
-        PrintLine(TEXT("HiddenWord[i] is %c"),  HiddenWord[i]);
-        
+    {                
         TCHAR Letter = HiddenWord[i];
         int32 position = i;
         if (Guess.FindChar(Letter, position))
+        {                 
+            HelpString.AppendChar(Letter);              
+        }else
         {
-            PrintLine(TEXT("Position %i was a hit at letter %c"),  position, HiddenWord[position]);          
-            
-        }     
-                
+            HelpString.Append(Miss);
+        }                      
        
     }
-
-   
-    //  TCHAR Letter1 = HiddenWord[0];
-    //  int32 position1 = 0;
-    //     if (Guess.FindChar(Letter1, position1))
-    //     {
-    //         PrintLine(TEXT("Position %i was a hit at letter %c"),  position1, HiddenWord[position1]);          
-            
-    //     }     
-
-    // TCHAR Letter2 = HiddenWord[1];
-    // int32 position2 = 1;
-    //     if (Guess.FindChar(Letter2, position2))
-    //     {
-    //         PrintLine(TEXT("Position %i was a hit at letter %c"),  position2, HiddenWord[position2]);          
-            
-    //     } 
+    
+    PrintLine(TEXT("From your guess, here's your hint: %s"),  *HelpString);  
+     
   
 }
