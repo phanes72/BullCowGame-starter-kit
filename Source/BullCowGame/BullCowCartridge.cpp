@@ -12,6 +12,8 @@ void UBullCowCartridge::BeginPlay() // When the game starts
        
     const FString WordListPath = FPaths::ProjectContentDir() / TEXT("WordLists/HiddenWordList.txt");
     FFileHelper::LoadFileToStringArray(Words, *WordListPath);
+    
+    ValidWords = GetValidWords(Words);
            
     SetupGame();    
     
@@ -28,7 +30,7 @@ void UBullCowCartridge::SetupGame()
 
     PrintLine(TEXT("Welcome to the Bulls and Cows Game!"));    
 
-    TArray<FString> ValidWords = GetValidWords(Words);
+    
        
     //Generate a random number in the array to return the valid word
     HiddenWord = ValidWords[FMath::RandRange(0, ValidWords.Num() - 1)];

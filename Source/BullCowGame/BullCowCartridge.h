@@ -20,11 +20,14 @@ class BULLCOWGAME_API UBullCowCartridge : public UCartridge
 	bool IsIsogram(const FString& Guess) const;
 	TArray<FString> GetValidWords(const TArray<FString>& Words) const; 
 
+	
+
 	// Your declarations go below!
 	private:
 	FString HiddenWord;
 	int32 Lives;
 	bool bGameOver;	
 	TArray<FString> Words;
+	TArray<FString> ValidWords;
 	
 };
