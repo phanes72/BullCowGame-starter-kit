@@ -26,6 +26,7 @@ class BULLCOWGAME_API UBullCowCartridge : public UCartridge
 	bool IsIsogram(const FString& Guess) const;
 	TArray<FString> GetValidWords(const TArray<FString>& Words) const; 
 	FBullCowCount GetBullCows(const FString& Guess) const;
+	void ShowBulls(FString Guess, FString HiddenWord) const;
 
 
 	// Your declarations go below!

@@ -95,7 +95,7 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess){
                 FBullCowCount Score = GetBullCows(Guess);
                 //PrintLine(TEXT("Bulls = %i, Cows = %i"), Count.Bulls, Count.Cows);
                 PrintLine(TEXT("You have %i Bulls and %i Cows"), Score.Bulls, Score.Cows);
-
+                ShowBulls(Guess, HiddenWord);
                 PrintLine(TEXT("Number of Lives = %i"), --Lives);  
                 return;   
             }
@@ -173,4 +173,46 @@ FBullCowCount UBullCowCartridge::GetBullCows(const FString& Guess) const
 
     return Count;
     
+}
+
+
+//Show the letter that is a Bull along with underscores
+void UBullCowCartridge::ShowBulls(FString Guess, FString HiddenWord) const
+{
+    FString HelpString;
+    FString Miss = "_";
+    FString LetterInGuess = "";
+
+    for (int32 i = 0; i < HiddenWord.Len(); i++)    
+    {
+        PrintLine(TEXT("HiddenWord[i] is %c"),  HiddenWord[i]);
+        
+        TCHAR Letter = HiddenWord[i];
+        int32 position = i;
+        if (Guess.FindChar(Letter, position))
+        {
+            PrintLine(TEXT("Position %i was a hit at letter %c"),  position, HiddenWord[position]);          
+            
+        }     
+                
+       
+    }
+
+   
+    //  TCHAR Letter1 = HiddenWord[0];
+    //  int32 position1 = 0;
+    //     if (Guess.FindChar(Letter1, position1))
+    //     {
+    //         PrintLine(TEXT("Position %i was a hit at letter %c"),  position1, HiddenWord[position1]);          
+            
+    //     }     
+
+    // TCHAR Letter2 = HiddenWord[1];
+    // int32 position2 = 1;
+    //     if (Guess.FindChar(Letter2, position2))
+    //     {
+    //         PrintLine(TEXT("Position %i was a hit at letter %c"),  position2, HiddenWord[position2]);          
+            
+    //     } 
+  
 }
