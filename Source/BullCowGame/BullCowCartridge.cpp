@@ -12,33 +12,27 @@ void UBullCowCartridge::BeginPlay() // When the game starts
        
     const FString WordListPath = FPaths::ProjectContentDir() / TEXT("WordLists/HiddenWordList.txt");
     FFileHelper::LoadFileToStringArray(Words, *WordListPath);
-    TArray<FString> ValidWords = GetValidWords(Words);
-        
-    SetupGame(); 
-
-     
-    PrintLine(TEXT("The number of possible words is %i "), Words.Num());
-    PrintLine(TEXT("The number of valid possible words is %i "), ValidWords.Num());
+           
+    SetupGame();    
     
-   
-    PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord);  //TODO Debug line
-   
-
 }
 
 void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
 {   
-        ProcessGuess(Input);       
-    
+        ProcessGuess(Input);          
 }
 
 void UBullCowCartridge::SetupGame()
 {
     ClearScreen();
 
-    PrintLine(TEXT("Welcome to the Bulls and Cows Game!"));
-    HiddenWord = "cakes";
-    
+    PrintLine(TEXT("Welcome to the Bulls and Cows Game!"));    
+
+    TArray<FString> ValidWords = GetValidWords(Words);
+       
+    //Generate a random number in the array to return the valid word
+    HiddenWord = ValidWords[FMath::RandRange(0, ValidWords.Num() - 1)];
+       
     Lives = HiddenWord.Len();    
     PrintLine(TEXT("Number of Lives = %i"), Lives);
     
@@ -46,10 +40,8 @@ void UBullCowCartridge::SetupGame()
     
     PrintLine(TEXT("Guess the %i letter word."), HiddenWord.Len());
     PrintLine(TEXT("Type in your guess."));    
-    PrintLine(TEXT("--Press Enter to continue--")); //Prompt player for guess   
-
-   
-    
+    PrintLine(TEXT("--Press Enter to continue--")); //Prompt player for guess      
+    PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord);  //*******************TODO DEBUG ONLY display HiddenWord  
 }
 
 void UBullCowCartridge::EndGame()
@@ -92,7 +84,7 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess){
             }    
             //Check if Isogram
             else if (IsIsogram(Guess)){
-                PrintLine(TEXT("You can't have words with repeating letters"));
+                PrintLine(TEXT("No words with repeating letters"));
                 return;
             }       
             else
