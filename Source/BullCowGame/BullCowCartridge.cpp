@@ -9,21 +9,20 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 {
 
     Super::BeginPlay();
+       
     const FString WordListPath = FPaths::ProjectContentDir() / TEXT("WordLists/HiddenWordList.txt");
     FFileHelper::LoadFileToStringArray(Words, *WordListPath);
     TArray<FString> ValidWords = GetValidWords(Words);
-    // for (int32 Index = 0;Index < ValidWords.Num(); Index++)
-    // {
-    //     PrintLine(TEXT("%s"), *ValidWords[Index]);
-    // } 
-    
+        
     SetupGame(); 
 
      
     PrintLine(TEXT("The number of possible words is %i "), Words.Num());
     PrintLine(TEXT("The number of valid possible words is %i "), ValidWords.Num());
+    
+   
     PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord);  //TODO Debug line
-
+   
 
 }
 
@@ -38,6 +37,7 @@ void UBullCowCartridge::SetupGame()
     ClearScreen();
 
     PrintLine(TEXT("Welcome to the Bulls and Cows Game!"));
+    HiddenWord = "cakes";
     
     Lives = HiddenWord.Len();    
     PrintLine(TEXT("Number of Lives = %i"), Lives);
@@ -63,7 +63,7 @@ void UBullCowCartridge::EndGame()
 }
 
 
-void UBullCowCartridge::ProcessGuess(FString Guess){
+void UBullCowCartridge::ProcessGuess(const FString& Guess){
     
     if(bGameOver){
         ClearScreen();
@@ -108,7 +108,7 @@ void UBullCowCartridge::ProcessGuess(FString Guess){
     }   
 }
 
-bool UBullCowCartridge::IsIsogram(FString Guess) const
+bool UBullCowCartridge::IsIsogram(const FString& Guess) const
 {      
     int32 counter = 0;
     while(counter < Guess.Len() - 1)
@@ -131,17 +131,16 @@ bool UBullCowCartridge::IsIsogram(FString Guess) const
 }
 
 
-TArray<FString> UBullCowCartridge::GetValidWords(TArray<FString> WordsList) const
+TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordsList) const
 {
     TArray<FString> ValidWords;  
-    FString Word;  
-    for (int32 Index = 0; Index < WordsList.Num() ; Index++)
-    {
-        if((WordsList[Index].Len() >= 4 && WordsList[Index].Len() <= 8) && !IsIsogram(WordsList[Index]))
-        {           
-            ValidWords.Emplace(WordsList[Index]);           
-        } 
-    }    
+        
+    for (FString Word: WordsList){
+        if (Word.Len() >= 4 && Word.Len() <= 8 && !IsIsogram(Word))
+        {
+            ValidWords.Emplace(Word);
+        }
+    }
 
     return ValidWords;   
 }
