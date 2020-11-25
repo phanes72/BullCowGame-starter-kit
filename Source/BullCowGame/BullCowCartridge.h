@@ -25,7 +25,7 @@ class BULLCOWGAME_API UBullCowCartridge : public UCartridge
 	void ProcessGuess(const FString& Guess);
 	bool IsIsogram(const FString& Guess) const;
 	TArray<FString> GetValidWords(const TArray<FString>& Words) const; 
-	FBullCowCount GetBullCows(const FString& Guess, struct FBullCowCount& Count) const;
+	FBullCowCount GetBullCows(const FString& Guess) const;
 
 
 	// Your declarations go below!
@@ -35,6 +35,5 @@ class BULLCOWGAME_API UBullCowCartridge : public UCartridge
 	bool bGameOver;	
 	TArray<FString> Words;
 	TArray<FString> ValidWords;
-	
-	
+		
 };

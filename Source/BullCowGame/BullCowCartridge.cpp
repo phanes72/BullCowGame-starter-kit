@@ -92,11 +92,9 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess){
                 PrintLine(TEXT("Nope, try again."));
 
                  // Show the player Bulls and Cows 
-                //int32 Bulls, Cows;
-                struct FBullCowCount Count = {0, 0};
-                GetBullCows(Guess, Count);
+                FBullCowCount Score = GetBullCows(Guess);
                 //PrintLine(TEXT("Bulls = %i, Cows = %i"), Count.Bulls, Count.Cows);
-                PrintLine(TEXT("You have %i Bulls and %i Cows"), Count.Bulls, Count.Cows);
+                PrintLine(TEXT("You have %i Bulls and %i Cows"), Score.Bulls, Score.Cows);
 
                 PrintLine(TEXT("Number of Lives = %i"), --Lives);  
                 return;   
@@ -148,11 +146,12 @@ TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordsLis
     return ValidWords;   
 }
 
-FBullCowCount UBullCowCartridge::GetBullCows(const FString& Guess, struct FBullCowCount& Count) const
+FBullCowCount UBullCowCartridge::GetBullCows(const FString& Guess) const
 {
        
     // if the index Guess is same as index HiddenWord, BullCount++
     // if not a bull was it a cow?  if yes CowCount++
+     FBullCowCount Count;
 
     for (int32 GuessIndex = 0; GuessIndex < Guess.Len(); GuessIndex++)
     {
